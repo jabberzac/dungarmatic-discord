@@ -1,13 +1,7 @@
-import discord, inspect, sys
+import discord, inspect, sys, os
 import asyncio
 from plugins import *
 from lib import Plugin,PersistentPlugin
-
-try:
-    import settings
-except:
-    print('No settings.py found. try: cp example_settings.py settings.py')
-    exit()
 
 
 client = discord.Client()
@@ -76,4 +70,4 @@ def on_message(message):
                 yield from plugin.on_command(message)
 
 print("Connecting to server")
-client.run(settings.token)
+client.run(os.environ.get('DISCORD_TOKEN',''))

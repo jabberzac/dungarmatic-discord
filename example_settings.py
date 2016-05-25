@@ -1,1 +1,0 @@
-token = 'Get a token from discord'
