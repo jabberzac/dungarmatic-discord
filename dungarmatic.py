@@ -1,7 +1,7 @@
 import discord, inspect, sys
 import asyncio
 from plugins import *
-from lib import Plugin
+from lib import Plugin,PersistentPlugin
 
 try:
     import settings
@@ -18,7 +18,7 @@ loaded_plugins = []
 
 for name, obj in inspect.getmembers(sys.modules[__name__]):
     for n, o in inspect.getmembers(obj):
-        if inspect.isclass(o) and issubclass(o,Plugin) and o != Plugin:
+        if inspect.isclass(o) and issubclass(o,Plugin) and o != Plugin and o != PersistentPlugin:
             print('Loading Plugin: ' + o.__name__)
             plug = o()
             plug.client = client
@@ -34,11 +34,20 @@ def on_ready():
 
     for c in client.get_all_channels():
         channel = c
+        break
 
     for plugin in loaded_plugins:
-        plugin.channel = c
+        plugin.channel = channel
+        if issubclass(type(plugin),PersistentPlugin):
+            yield from plugin.load()
         yield from plugin.on_ready()
 
+    while True:
+        yield from asyncio.sleep(30)
+        for plugin in loaded_plugins:
+            if issubclass(type(plugin), PersistentPlugin):
+                yield from plugin.save()
+            yield from plugin.on_tick()
 
 
 @client.event
@@ -66,4 +75,5 @@ def on_message(message):
             if plugin.cmd and plugin.cmd == cmd:
                 yield from plugin.on_command(message)
 
+print("Connecting to server")
 client.run(settings.token)
