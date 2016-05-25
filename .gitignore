@@ -2,4 +2,4 @@
 __pycache__
 *.pyc
 /.idea
-/.dungarmatic.data
+/dungarmatic.data
