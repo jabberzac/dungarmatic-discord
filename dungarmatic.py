@@ -50,11 +50,23 @@ def on_member_update(old,member):
     for plugin in loaded_plugins:
         yield from plugin.on_member_update(old,member)
 
+history = {}
+
 @client.event
 @asyncio.coroutine
 def on_message(message):
+    if message.channel.id not in history:
+        history[message.channel.id] = []
+
+    history[message.channel.id].insert(0, message.content)
+    if len(history[message.channel.id]) > 30:
+        history[message.channel.id].pop()
+
+    if message.author == client.user:
+        return
+
     for plugin in loaded_plugins:
-        yield from plugin.on_message(message)
+        yield from plugin.on_message(message,history[message.channel.id])
 
     if message.content.startswith('!help'):
         m = "Available commands: \n\n"

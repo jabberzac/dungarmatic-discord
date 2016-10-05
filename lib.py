@@ -22,7 +22,7 @@ class Plugin:
         pass
 
     @asyncio.coroutine
-    def on_message(self, message):
+    def on_message(self, message, history):
         pass
 
     @asyncio.coroutine
