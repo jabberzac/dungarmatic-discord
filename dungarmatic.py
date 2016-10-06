@@ -3,7 +3,6 @@ import asyncio
 from plugins import *
 from lib import Plugin,PersistentPlugin
 
-
 client = discord.Client()
 
 channel = None
@@ -83,5 +82,7 @@ def on_message(message):
                 if issubclass(type(plugin), PersistentPlugin):
                     yield from plugin.save()
 
-print("Connecting to server")
-client.run(os.environ.get('DISCORD_TOKEN',''))
+if __name__ == "__main__":
+    print("Connecting to Discord")
+    client.run(os.environ.get('DISCORD_TOKEN',''))
+

@@ -3,3 +3,4 @@ simplekv
 discord.py
 steam
 motor
+tornado
