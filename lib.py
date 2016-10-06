@@ -37,6 +37,13 @@ class Plugin:
     def get_jabberzac_name(self, member):
         pass
 
+    @asyncio.coroutine
+    def get_channel(self, name):
+        for server in self.client.servers:
+            for channel in server.channels:
+                if channel.name == name:
+                    return channel
+
 class PersistentPlugin(Plugin):
     persist = []
 

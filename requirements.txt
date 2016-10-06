@@ -1,4 +1,4 @@
 cffi
 simplekv
 discord.py
-pygithub
+steam

@@ -37,11 +37,11 @@ def on_ready():
         yield from plugin.on_ready()
 
     while True:
-        yield from asyncio.sleep(30)
         for plugin in loaded_plugins:
             if issubclass(type(plugin), PersistentPlugin):
                 yield from plugin.save()
             yield from plugin.on_tick()
+        yield from asyncio.sleep(30)
 
 
 @client.event
