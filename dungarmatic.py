@@ -1,7 +1,11 @@
 import discord, inspect, sys, os
-import asyncio
+import asyncio, threading
 from plugins import *
 from lib import Plugin,PersistentPlugin
+
+import tornado.ioloop
+import tornado.web
+
 
 client = discord.Client()
 
@@ -82,7 +86,25 @@ def on_message(message):
                 if issubclass(type(plugin), PersistentPlugin):
                     yield from plugin.save()
 
+
+#Web client (Tornado)
+class MainHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.write("Hello, world")
+
+def start_web():
+    app = tornado.web.Application([
+        (r"/", MainHandler),
+    ])
+    app.listen(80)
+    tornado.ioloop.IOLoop.current().start()
+
 if __name__ == "__main__":
+    print ("Starting web server")
+    t = threading.Thread(target=start_web)
+    t.daemon = True
+    t.start()
+
     print("Connecting to Discord")
     client.run(os.environ.get('DISCORD_TOKEN',''))
 
