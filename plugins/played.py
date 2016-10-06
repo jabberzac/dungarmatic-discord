@@ -31,6 +31,6 @@ class PlayedPlugin(PersistentPlugin):
     def on_command(self, message):
         m = "Games jabberzac is playing:\n\n"
         for game in self.played.keys():
-            m += game + ": " + ', '.join(self.played[game]) + "\n"
+            m += "**" + game + "**\n" + ', '.join(self.played[game]) + "\n\n"
 
         yield from self.client.send_message(message.channel, m)

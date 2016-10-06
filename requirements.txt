@@ -2,3 +2,4 @@ cffi
 simplekv
 discord.py
 steam
+motor

@@ -78,8 +78,10 @@ def on_message(message):
     elif message.content.startswith('!'):
         cmd = message.content[1:]
         for plugin in loaded_plugins:
-            if plugin.cmd and plugin.cmd == cmd:
+            if plugin.cmd and cmd.startswith(plugin.cmd):
                 yield from plugin.on_command(message)
+                if issubclass(type(plugin), PersistentPlugin):
+                    yield from plugin.save()
 
 print("Connecting to server")
 client.run(os.environ.get('DISCORD_TOKEN',''))

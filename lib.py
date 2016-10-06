@@ -1,11 +1,10 @@
 import asyncio,json,os
+import motor.motor_asyncio
 from simplekv.fs import FilesystemStore
 
-try:
-    os.mkdir('./dungarmatic.data')
-except:
-    pass
-store = store = FilesystemStore('./dungarmatic.data')
+MONGODB_URI = os.environ.get('MONGODB_URI','')
+
+store = motor.motor_asyncio.AsyncIOMotorClient(MONGODB_URI)['heroku_bj2w4pbb']
 
 class Plugin:
     help = "Whoever wrote this plugin needs to write a damn help text ffs"
@@ -49,15 +48,23 @@ class PersistentPlugin(Plugin):
 
     @asyncio.coroutine
     def save(self):
+        coll = store['plugins']
+        data = yield from coll.find_one({'plugin': self.__class__.__name__})
+        if not data:
+            data = {'plugin':self.__class__.__name__}
         for name in self.persist:
             val = json.dumps(getattr(self,name))
-            store.put(self.__class__.__name__+'_'+name,val.encode())
+            data[name] = val
+        yield from coll.save(data)
 
     @asyncio.coroutine
     def load(self):
-        for name in self.persist:
-            try:
-                val = store.get(self.__class__.__name__ + '_' + name)
-            except:
-                continue
-            setattr(self, name, json.loads(val.decode()))
+        coll = store['plugins']
+        data = yield from coll.find_one({'plugin': self.__class__.__name__})
+        if data:
+            for name in self.persist:
+                try:
+                    val = data[name]
+                except:
+                    continue
+                setattr(self, name, json.loads(val))
