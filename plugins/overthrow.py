@@ -1,11 +1,12 @@
-from lib import Plugin
+from lib import PersistentPlugin
 import asyncio, os, re
 from steam import WebAPI
 
 STEAM_TOKEN = os.environ.get('STEAM_TOKEN','')
 
 #notifies #armazac channel of various overthrow stuff
-class OverthrowPlugin(Plugin):
+class OverthrowPlugin(PersistentPlugin):
+    persist = ["latest_item"]
     tick = 0
     last_check = 0
     latest_item = ''
@@ -28,6 +29,7 @@ class OverthrowPlugin(Plugin):
 
             if self.latest_item == '' or self.latest_item != latest['gid']:
                 self.latest_item = latest['gid']
+                yield from self.save()
 
                 txt = "__**" + latest['title'] + "**__\n\n"
                 contents = latest['contents']
