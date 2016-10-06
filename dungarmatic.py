@@ -96,11 +96,13 @@ def start_web():
     app = tornado.web.Application([
         (r"/", MainHandler),
     ])
-    app.listen(5000)
+    port = int(os.environ.get("PORT", 5000))
+    print("Starting web server on port " + str(port))
+    app.listen(port)
     tornado.ioloop.IOLoop.current().start()
 
 if __name__ == "__main__":
-    print ("Starting web server")
+
     t = threading.Thread(target=start_web)
     t.daemon = True
     t.start()
