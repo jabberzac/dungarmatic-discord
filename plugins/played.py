@@ -37,7 +37,7 @@ class PlayedPlugin(PersistentPlugin):
         if game.lower() in theset:
             i = theset[game.lower()]
             w = " plays "
-            if len(i) > 1:
+            if len(i['v']) > 1:
                 w = " play "
             yield from self.client.send_message(message.channel, ', '.join(i['v']) + w + i['k'])
         else:
