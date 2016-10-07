@@ -1,5 +1,5 @@
 import asyncio,json,os
-from datetime import date, timedelta
+from datetime import datetime, timedelta
 import motor.motor_asyncio
 from simplekv.fs import FilesystemStore
 
@@ -72,13 +72,15 @@ class PersistentPlugin(Plugin):
 
 class TimedPersistentPlugin(Plugin):
     persist = []
+    dateformat = "%Y%m%d%H" #Default: aggregate data hourly
+    current = ""
 
     @asyncio.coroutine
     def save(self):
         coll = store[self.__class__.__name__]
-        data = yield from coll.find_one({'date': date.today().isoformat()})
+        data = yield from coll.find_one({'date': datetime.now().strftime(self.dateformat)})
         if not data:
-            data = {'plugin': self.__class__.__name__}
+            data = {'date': datetime.now().strftime(self.dateformat)}
         for name in self.persist:
             val = getattr(self, name)
             data[name] = val
@@ -87,7 +89,7 @@ class TimedPersistentPlugin(Plugin):
     @asyncio.coroutine
     def load(self):
         coll = store[self.__class__.__name__]
-        data = yield from coll.find_one({'date': date.today().isoformat()})
+        data = yield from coll.find_one({'date': datetime.now().strftime(self.dateformat)})
         if data:
             for name in self.persist:
                 try:
@@ -96,16 +98,24 @@ class TimedPersistentPlugin(Plugin):
                     continue
                 setattr(self, name, val)
 
-    def sum_week(self, attr):
+    @asyncio.coroutine
+    def get_data_for(self, d):
         coll = store[self.__class__.__name__]
-        ret = {}
-        d = date.today() - timedelta(days=7)
-        for x in range(1,7):
-            data = yield from coll.find_one({'date': date.today().isoformat()})
-            for k,v in data[attr].items():
-                if isinstance(v,int):
-                    if k not in ret:
-                        ret[k] = v
-                    else:
-                        ret[k] += v
+        data = yield from coll.find_one({'date': d.strftime(self.dateformat)})
+        return data
 
+    @asyncio.coroutine
+    def on_system_tick(self):
+        d = datetime.now().strftime(self.dateformat)
+        if self.current != d:
+            self.current = d
+            for name in self.persist:
+                val = getattr(self, name)
+                if isinstance(val,dict):
+                    setattr(self, name, {})
+                if isinstance(val,list):
+                    setattr(self, name, [])
+                if isinstance(val,int):
+                    setattr(self, name, 0)
+                if isinstance(val,str):
+                    setattr(self, name, "")

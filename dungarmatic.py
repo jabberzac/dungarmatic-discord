@@ -1,7 +1,7 @@
 import discord, inspect, sys, os
 import asyncio, threading
 from plugins import *
-from lib import Plugin,PersistentPlugin
+from lib import Plugin,PersistentPlugin,TimedPersistentPlugin
 
 import tornado.ioloop
 import tornado.web
@@ -42,6 +42,9 @@ def on_ready():
     while True:
         for plugin in loaded_plugins:
             if issubclass(type(plugin), PersistentPlugin):
+                yield from plugin.save()
+            if issubclass(type(plugin), TimedPersistentPlugin):
+                yield from plugin.on_system_tick()
                 yield from plugin.save()
             yield from plugin.on_tick()
         yield from asyncio.sleep(30)
