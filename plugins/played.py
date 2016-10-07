@@ -4,8 +4,8 @@ import asyncio
 
 
 class PlayedPlugin(PersistentPlugin):
-    cmd = "played"
-    help = "Displays what games I have seen people playing"
+    cmd = "whoplays"
+    help = "Tells you who plays the provided game"
     persist = ['played']
 
     played = {}
@@ -29,8 +29,16 @@ class PlayedPlugin(PersistentPlugin):
 
     @asyncio.coroutine
     def on_command(self, message):
-        m = "Games jabberzac is playing:\n\n"
-        for game in self.played.keys():
-            m += "**" + game + "**\n" + ', '.join(self.played[game]) + "\n\n"
+        game = message.content[10:]
+        theset = {}
+        for k,v in self.played.items():
+            theset[k.lower()] = {'v':v,'k':k}
 
-        yield from self.client.send_message(message.channel, m)
+        if game.lower() in theset:
+            i = theset[game.lower()]
+            w = " plays "
+            if len(i) > 1:
+                w = " play "
+            yield from self.client.send_message(message.channel, ', '.join(i['v']) + w + i['k'])
+        else:
+            yield from self.client.send_message(message.channel, "No one plays " + game + ". It's probably a shit game anyway.")
