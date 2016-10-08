@@ -5,7 +5,7 @@ from simplekv.fs import FilesystemStore
 
 MONGODB_URI = os.environ.get('MONGODB_URI','')
 
-store = motor.motor_asyncio.AsyncIOMotorClient(MONGODB_URI)['heroku_bj2w4pbb']
+store = motor.motor_asyncio.AsyncIOMotorClient(MONGODB_URI)['dungarmatic']
 
 class Plugin:
     help = "Whoever wrote this plugin needs to write a damn help text ffs"
@@ -99,9 +99,17 @@ class TimedPersistentPlugin(Plugin):
                 setattr(self, name, val)
 
     @asyncio.coroutine
-    def get_data_for(self, d):
+    def get_data_for(self, attr, d):
         coll = store[self.__class__.__name__]
         data = yield from coll.find_one({'date': d.strftime(self.dateformat)})
+        if data:
+            return data[attr]
+        return None
+
+    @asyncio.coroutine
+    def map_reduce(self, map, reduce, partdate):
+        coll = store[self.__class__.__name__]
+        data = yield from coll.inline_map_reduce(map,reduce,query={'date':{'$regex':'^'+partdate}})
         return data
 
     @asyncio.coroutine
