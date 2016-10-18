@@ -1,4 +1,4 @@
-import asyncio,json,os
+import asyncio,json,os,re,random
 from datetime import datetime, timedelta
 import motor.motor_asyncio
 from simplekv.fs import FilesystemStore
@@ -23,7 +23,22 @@ class Plugin:
 
     @asyncio.coroutine
     def on_message(self, message, history):
-        pass
+        reply = None
+        for handler in self.handlers.keys():
+            match = handler.search(message.content)
+            if match:
+                reply = yield from self.handlers[handler](message, match)
+                if reply:
+                    break
+
+        if reply is None:
+            for proc in self.processors:
+                reply = yield from proc(message)
+                if reply:
+                    break
+
+        if reply:
+            yield from self.client.send_message(message.channel, reply)
 
     @asyncio.coroutine
     def on_tick(self):
@@ -43,6 +58,38 @@ class Plugin:
             for channel in server.channels:
                 if channel.name == name:
                     return channel
+
+    def chance(self, chance):
+        """chance should be a dictionary with the keys being a number like 0.25
+            and the value a string to return, the keys should sum to a maximum
+            of <= 1.0"""
+        random.seed()
+        rnd = random.random()
+        t = 0
+        for message in chance.keys():
+            c = chance[message];
+            m = t
+            t = t + c
+            if rnd < t and rnd >= m:
+                return message
+        return None
+
+    def find_paragraph(self, node):
+        if (node.localName == 'p'):
+            return node
+        if (node.localName == 'table'):
+            return None
+        for child in node.childNodes:
+            paragraph = self.findParagraph(child)
+            if paragraph:
+                return paragraph
+
+    def add_handler(self, phrases, callback):
+        for phrase in phrases:
+            self.handlers[re.compile(phrase, re.IGNORECASE)] = callback
+
+    def add_processor(self, callback):
+        self.processors.append(callback)
 
 class PersistentPlugin(Plugin):
     persist = []

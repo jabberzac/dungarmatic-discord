@@ -1,5 +1,6 @@
 import discord, inspect, sys, os
 import asyncio, threading
+import gettext
 from plugins import *
 from lib import Plugin,PersistentPlugin,TimedPersistentPlugin
 
@@ -29,12 +30,17 @@ def on_ready():
     print(client.user.id)
     print('------')
 
+    lang_en = gettext.translation('dungarmatic', '.', languages=['en'])
+
     for c in client.get_all_channels():
         channel = c
         break
 
     for plugin in loaded_plugins:
+        plugin.lang = lang_en
         plugin.channel = channel
+        plugin.handlers = {}
+        plugin.processors = []
         if issubclass(type(plugin),PersistentPlugin):
             yield from plugin.load()
         yield from plugin.on_ready()

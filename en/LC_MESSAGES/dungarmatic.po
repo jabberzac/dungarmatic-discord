@@ -1,0 +1,383 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: dungarmatic\n"
+"POT-Creation-Date: 2009-07-18 17:47+EST\n"
+"PO-Revision-Date: 2016-10-19 00:10+1100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"X-Generator: Poedit 1.8.10\n"
+
+#: Jabberzac.py:107
+msgid "As I see it, yes"
+msgstr ""
+
+#: Jabberzac.py:108
+msgid "Ask again later"
+msgstr ""
+
+#: Jabberzac.py:109
+msgid "Better not tell you now"
+msgstr ""
+
+#: Jabberzac.py:110
+msgid "Cannot predict now"
+msgstr ""
+
+#: Jabberzac.py:111
+msgid "Concentrate and ask again"
+msgstr ""
+
+#: Jabberzac.py:112
+msgid "Don't count on it"
+msgstr ""
+
+#: Jabberzac.py:113
+msgid "It is certain"
+msgstr ""
+
+#: Jabberzac.py:114
+msgid "It is decidedly so"
+msgstr ""
+
+#: Jabberzac.py:115
+msgid "Most likely"
+msgstr ""
+
+#: Jabberzac.py:116
+msgid "My reply is no"
+msgstr ""
+
+#: Jabberzac.py:117
+msgid "My sources say no"
+msgstr ""
+
+#: Jabberzac.py:118
+msgid "Outlook good"
+msgstr ""
+
+#: Jabberzac.py:119
+msgid "Outlook not so good"
+msgstr ""
+
+#: Jabberzac.py:120
+msgid "Reply hazy, try again"
+msgstr ""
+
+#: Jabberzac.py:121
+msgid "Signs point to yes"
+msgstr ""
+
+#: Jabberzac.py:122
+msgid "Very doubtful"
+msgstr ""
+
+#: Jabberzac.py:123
+msgid "Without a doubt"
+msgstr ""
+
+#: Jabberzac.py:124
+msgid "Yes"
+msgstr ""
+
+#: Jabberzac.py:125
+msgid "Yes - definitely"
+msgstr ""
+
+#: Jabberzac.py:126
+msgid "You may rely on it"
+msgstr ""
+
+#: Jabberzac.py:130
+msgid "As I see it, yes. Furthermore,"
+msgstr ""
+
+#: Jabberzac.py:131
+msgid "Ask again when your daughter is legal"
+msgstr ""
+
+#: Jabberzac.py:132
+msgid "Can't talk, deadtear will ban me"
+msgstr ""
+
+#: Jabberzac.py:133
+msgid "Can't talk, solo will ban me"
+msgstr ""
+
+#: Jabberzac.py:134
+msgid "Can't talk, lux will pink text me"
+msgstr ""
+
+#: Jabberzac.py:135
+msgid "Concentrate and ask again faggot"
+msgstr ""
+
+#: Jabberzac.py:136
+msgid "My sources say: \"You are a faggot\""
+msgstr ""
+
+#: Jabberzac.py:137
+msgid "Do fatties like ham?"
+msgstr ""
+
+#: Jabberzac.py:138
+msgid "Do fatties like candy?"
+msgstr ""
+
+#: Jabberzac.py:139
+msgid "About a likely as the forums going down. Again."
+msgstr ""
+
+#: Jabberzac.py:140
+msgid "My reply is rofl"
+msgstr ""
+
+#: Jabberzac.py:141
+msgid "My sources say send Urcher 1B ISK for an answer"
+msgstr ""
+
+#: Jabberzac.py:142
+msgid "Outlook better than thunderbird"
+msgstr ""
+
+#: Jabberzac.py:143
+msgid "Outlook not so good, mlyp"
+msgstr ""
+
+#: Jabberzac.py:144
+msgid "Reply hazy, kill yourself"
+msgstr ""
+
+#: Jabberzac.py:145
+msgid "Signs point to your mothers house, because that is the worlds most common destination :iceburn:"
+msgstr ""
+
+#: Jabberzac.py:146
+msgid "Only if CCP can keep the servers going for 24 *consecutive* hours"
+msgstr ""
+
+#: Jabberzac.py:147
+msgid "Only if Solo can keep the servers going for 24 *consecutive* hours"
+msgstr ""
+
+#: Jabberzac.py:148
+msgid "no u"
+msgstr ""
+
+#: Jabberzac.py:149
+msgid "Yes - faggot"
+msgstr ""
+
+#: Jabberzac.py:150
+msgid "Cute question. ISK sent"
+msgstr ""
+
+#: Jabberzac.py:188
+msgid "REGEX_NEXT_OP"
+msgstr ".*?(?:when is|where is).*?(?:next op)\\?"
+
+#: Jabberzac.py:195
+msgid "There are no ops on the calendar, maybe you should post one :colbert:"
+msgstr ""
+
+#: Jabberzac.py:199
+msgid "REGEX_WHERE_IS_FLEET"
+msgstr ".*?(?:is there an|what is the|where is the|where is|how i|how do i|where do i).*?(?:op|go|fleet|fleet doing)\\?"
+
+#: Jabberzac.py:206
+msgid "There isn't any ops on atm :smith:"
+msgstr ""
+
+#: Jabberzac.py:210
+msgid "REGEX_WHAT_AM_I_TRAINING"
+msgstr ".*?(?:what|wut|wat|what skill|wat skill|wut skill)\\s*(?:is|am)\\s*(?P<name>.*?)\\straining\\?"
+
+#: Jabberzac.py:219
+msgid "REGEX_WHAT_DO_YOU_THINK_ABOUT"
+msgstr ".*?(?:how|what|wut|wat|wot|why)\\s(?:do you|do u)\\s?(?:hate|like|think that|think this|love|know about|feel about|love about|think about|like about|hate about|think of)\\s(?P<phrase>.*?)(?:\\?|\\s)"
+
+#: Jabberzac.py:219
+msgid "REGEX_WHAT_IS"
+msgstr ".*?(?:wut|what|wat|who|where)\\s(?:is a|are|is)\\s(?P<phrase>.*?)\\?"
+
+msgid "REGEX_WHEN"
+msgstr "when\\b.*\\?"
+
+msgid "REGEX_WEED"
+msgstr "(?:weed|smoke|420|everyday|every day)"
+
+#: Jabberzac.py:261
+msgid "REGEX_HOW_MANY"
+msgstr ".*?(?:how many|how much).*\\?"
+
+#: Jabberzac.py:320
+msgid "REGEX_MLYP"
+msgstr "\\s(?:is|are|was|its|it's)\\s+(?:\\w+\\s+|)(?:shit|crap|gay|old|worthless|useless|gays|terrible|bad)(?:|!|.)*\\Z"
+
+#: Jabberzac.py:327
+msgid "REGEX_C_D"
+msgstr "\\sc(?:/|\\\\)d(?:|\\?*)\\Z"
+
+#: Jabberzac.py:334
+msgid "REGEX_MY_GIRLFRIEND"
+msgstr "\\smy girlfriend"
+
+msgid "REGEX_OPTIONS"
+msgstr "\\s*(?P<options>.*\\s+or\\s+.*)\\?"
+
+msgid "REGEX_OR"
+msgstr "\\s*(?:,?\\sor|,)\\s+"
+
+msgid "REGEX_WHOIS"
+msgstr "\\s*who\\s*(?P<query>is|was)\\s+(?P<nick>.*)\\?\\s*"
+
+#: Jabberzac.py:358
+msgid "holy shit"
+msgstr ""
+
+#: Jabberzac.py:359
+msgid "tl;dr"
+msgstr ""
+
+#: Jabberzac.py:361
+msgid "lol, wut"
+msgstr ""
+
+#: Jabberzac.py:362
+msgid "hurf blurf"
+msgstr ""
+
+#: Jabberzac.py:444
+msgid "shut up faggot"
+msgstr ""
+
+#: Jabberzac.py:445
+msgid "fuck you and the z0r you rode in on"
+msgstr ""
+
+#: Jabberzac.py:471
+msgid "welp"
+msgstr ""
+
+#: Jabberzac.py:472
+msgid "My sister has been looking pretty good lately"
+msgstr ""
+
+#: Jabberzac.py:473
+msgid "guys, let's move to syndicate"
+msgstr ""
+
+#: Jabberzac.py:474
+msgid "My dad is dead"
+msgstr ""
+
+#: Jabberzac.py:475
+msgid "remedial saw me as a young version of himself!"
+msgstr ""
+
+#: Jabberzac.py:476
+msgid "I joined triumvirate"
+msgstr ""
+
+#: Jabberzac.py:477
+msgid ":dungar:"
+msgstr ""
+
+#: Jabberzac.py:478
+msgid "yeah i dont think ill get that machariel back :("
+msgstr ""
+
+#: Jabberzac.py:479
+msgid "check out all these gistii a-types i just farmed"
+msgstr ""
+
+#: Jabberzac.py:480
+msgid "i joined PL mainly because they fit my playstyle and level of talent"
+msgstr ""
+
+#: Jabberzac.py:481
+msgid "triumvirate died :("
+msgstr ""
+
+#: Jabberzac.py:482
+msgid "Man I'm so close to finishing Cloaking V for those new blackops BSes. I can't wait."
+msgstr ""
+
+#: Jabberzac.py:483
+msgid "That angel bird has pictures of herself on the forums and if I wasn't so sure she's insane I'd probably hit that :)"
+msgstr ""
+
+#: Jabberzac.py:488
+msgid "c"
+msgstr ""
+
+#: Jabberzac.py:489
+msgid "d"
+msgstr ""
+
+#: Jabberzac.py:494
+msgid "MY GIRLFRIEND"
+msgstr ""
+
+#: Jabberzac.py:517
+msgid "mlyp"
+msgstr ""
+
+#: Jabberzac.py:528
+msgid "img-timeline"
+msgstr ""
+
+#: Jabberzac.py:534
+msgid "Jesus Christ :nws: that shit"
+msgstr ""
+
+#: Jabberzac.py:535
+msgid "thanks asshole i just got fired :mad:"
+msgstr ""
+
+#: Jabberzac.py:536
+msgid "OMG hawt"
+msgstr ""
+
+#: Jabberzac.py:542
+msgid "Shit is getting real"
+msgstr ""
+
+#: Jabberzac.py:544
+msgid "carrier down"
+msgstr ""
+
+#: Jabberzac.py:572
+msgid "pro-click zone"
+msgstr ""
+
+#: Jabberzac.py:573
+msgid "not clicking that"
+msgstr ""
+
+#: Jabberzac.py:574
+msgid "amirite"
+msgstr ""
+
+#: Jabberzac.py:574
+msgid "more like"
+msgstr ""
+
+#: Jabberzac.py:643
+msgid "Merry Christmas"
+msgstr ""
+
+#: Jabberzac.py:1022
+msgid "buttes"
+msgstr ""
+
+msgid "http://en.wikipedia.org/wiki/%s"
+msgstr ""
