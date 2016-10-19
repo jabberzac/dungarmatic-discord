@@ -4,3 +4,4 @@ discord.py
 steam
 motor
 tornado
+thegamesdb

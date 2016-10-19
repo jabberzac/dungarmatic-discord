@@ -1,0 +1,54 @@
+<html>
+<head>
+    <title>Discordzac</title>
+
+    <!-- Materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+
+    <!-- JavaScript for: jQuery, angular, materialize, and angular-materialize. All of which are needed. -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-materialize/0.2.1/angular-materialize.min.js"></script>
+    <script src="static/node_modules/angular-chart.js/node_modules/chart.js/dist/Chart.min.js"></script>
+    <script src="static/node_modules/angular-chart.js/dist/angular-chart.min.js"></script>
+    <script src="static/node_modules/moment/min/moment.min.js"></script>
+    <!-- Your app -->
+    <script type="text/javascript" src="static/js/app.js"></script>
+</head>
+<body class="grey" ng-app="materializeApp" ng-controller="BodyController">
+<main>
+        <nav>
+            <div class="nav-wrapper grey darken-4">
+                <a href="#" class="brand-logo">Discordzac</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a target="_blank" href="https://discord.gg/011yoNsCCj57Qqmnw">Join</a></li>
+                    <li><a target="_blank" href="https://github.com/jabberzac">Github</a></li>
+                    <li><a target="_blank" href="https://jabberzac.org">Jabberzac</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="row">
+            <h5>Most Played Games</h5>
+            <div class="col s2">
+                <h6>All Time</h6>
+                <ol class="collection" ng-model="mostplayed">
+                    <li ng-repeat="item in mostplayed|limitTo:10" class="collection-item">{{item.g}} ({{item.v}} hrs)</li>
+                </ol>
+            </div>
+            <div class="col s2">
+                <h6>Last 7 Days</h6>
+                <ol class="collection" ng-model="mostplayedweek">
+                    <li ng-repeat="item in mostplayedweek|limitTo:10" class="collection-item">{{item.g}} ({{item.v}} hrs)</li>
+                </ol>
+            </div>
+            <div class="col s4">
+                <canvas class="chart chart-bar" chart-data="activity.data"
+                        chart-dataset-override="activity.dataset"
+                    chart-labels="activity.labels" chart-series="activity.series" chart-options="activity.options" chart-colors="activity.colors">
+                </canvas>
+            </div>
+        </div>
+</main>
+</body>
+</html>

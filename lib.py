@@ -2,10 +2,12 @@ import asyncio,json,os,re,random
 from datetime import datetime, timedelta
 import motor.motor_asyncio
 from simplekv.fs import FilesystemStore
+from tornado import gen
 
 MONGODB_URI = os.environ.get('MONGODB_URI','')
 
 store = motor.motor_asyncio.AsyncIOMotorClient(MONGODB_URI)['dungarmatic']
+tornado_store = motor.motor_tornado.MotorClient(MONGODB_URI)['dungarmatic']
 
 class Plugin:
     help = "Whoever wrote this plugin needs to write a damn help text ffs"
@@ -153,10 +155,30 @@ class TimedPersistentPlugin(Plugin):
             return data[attr]
         return None
 
+    @gen.coroutine
+    def get_data_for_gen(self, attr, d):
+        coll = tornado_store[self.__class__.__name__]
+        data = yield coll.find_one({'date': d.strftime(self.dateformat)})
+        if data:
+            return data[attr]
+        return None
+
     @asyncio.coroutine
-    def map_reduce(self, map, reduce, partdate):
+    def map_reduce(self, map, reduce, partdate=None):
         coll = store[self.__class__.__name__]
-        data = yield from coll.inline_map_reduce(map,reduce,query={'date':{'$regex':'^'+partdate}})
+        if partdate:
+            data = yield from coll.inline_map_reduce(map, reduce, query={'date': {'$regex': '^' + partdate}})
+        else:
+            data = yield from coll.inline_map_reduce(map, reduce)
+        return data
+
+    @gen.coroutine
+    def map_reduce_gen(self, map, reduce, partdate=None):
+        coll = tornado_store[self.__class__.__name__]
+        if partdate:
+            data = yield coll.inline_map_reduce(map, reduce, query={'date': {'$regex': '^' + partdate}})
+        else:
+            data = yield coll.inline_map_reduce(map, reduce)
         return data
 
     @asyncio.coroutine

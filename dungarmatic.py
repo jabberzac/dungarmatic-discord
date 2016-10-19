@@ -1,4 +1,4 @@
-import discord, inspect, sys, os
+import discord, inspect, sys, os, json
 import asyncio, threading
 import gettext
 from plugins import *
@@ -6,7 +6,7 @@ from lib import Plugin,PersistentPlugin,TimedPersistentPlugin
 
 import tornado.ioloop
 import tornado.web
-
+from tornado import gen
 
 client = discord.Client()
 
@@ -99,12 +99,34 @@ def on_message(message):
 #Web client (Tornado)
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-        self.write("Hello, world")
+        html = open('templates/index.html', encoding='utf-8')
+        self.write(html.read())
+
+class ApiHandler(tornado.web.RequestHandler):
+    @gen.coroutine
+    def get(self,path):
+        for plugin in loaded_plugins:
+            if(hasattr(plugin,"api_"+path)):
+                method = getattr(plugin,"api_"+path)
+                data = yield method()
+                self.set_header('Content-Type', 'application/json')
+                self.write(json.dumps(data))
+                return
+
+        raise(tornado.web.HTTPError(404))
+
+class FileHandler(tornado.web.StaticFileHandler):
+    def parse_url_path(self, url_path):
+        if not url_path or url_path.endswith('/'):
+            url_path = url_path + 'index.html'
+        return url_path
 
 def start_web():
     app = tornado.web.Application([
         (r"/", MainHandler),
-    ])
+        (r"^/api/(.*)", ApiHandler),
+        (r"^/static/(.*)", FileHandler, {'path': os.getcwd()+"/static"}),
+    ], debug=True)
     port = int(os.environ.get("PORT", 5000))
     print("Starting web server on port " + str(port))
     app.listen(port)
