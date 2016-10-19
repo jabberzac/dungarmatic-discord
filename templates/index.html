@@ -33,13 +33,13 @@
             <div class="col s2">
                 <h6>All Time</h6>
                 <ol class="collection" ng-model="mostplayed">
-                    <li ng-repeat="item in mostplayed|limitTo:10" class="collection-item">{{item.g}} ({{item.v}} hrs)</li>
+                    <li ng-repeat="item in mostplayed|limitTo:10" class="collection-item">{{item.g}} ({{item.v/120|number:0}} hrs)</li>
                 </ol>
             </div>
             <div class="col s2">
                 <h6>Last 7 Days</h6>
                 <ol class="collection" ng-model="mostplayedweek">
-                    <li ng-repeat="item in mostplayedweek|limitTo:10" class="collection-item">{{item.g}} ({{item.v}} hrs)</li>
+                    <li ng-repeat="item in mostplayedweek|limitTo:10" class="collection-item">{{item.g}} ({{item.v/120|number:1}} hrs)</li>
                 </ol>
             </div>
             <div class="col s4">
