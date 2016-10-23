@@ -32,7 +32,7 @@ class LinksPlugin(TimedPersistentPlugin):
             if url not in self.timeline[id]:
                 self.timeline[id].append(url)
             else:
-                yield from self.client.send_message(message.channel, "img-timeline")
+                # do nothing because img timeline is a piece of shit
 
     @asyncio.coroutine
     def on_command(self, message):
