@@ -29,10 +29,6 @@ class LinksPlugin(TimedPersistentPlugin):
             url = ''.join(map(str,match.groups()))
             if url not in self.links[id]:
                 self.links[id].append(url)
-            if url not in self.timeline[id]:
-                self.timeline[id].append(url)
-            else:
-                # do nothing because img timeline is a piece of shit
 
     @asyncio.coroutine
     def on_command(self, message):
