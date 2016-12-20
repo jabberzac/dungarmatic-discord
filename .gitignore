@@ -1,5 +1,6 @@
 /settings.py
 __pycache__
 *.pyc
-/.idea
-/dungarmatic.data
+.idea
+node_modules
+/static/upload

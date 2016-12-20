@@ -21,7 +21,7 @@ class OverthrowPlugin(PersistentPlugin):
         if self.last_check == 0 or self.tick - self.last_check >= 40: #20 mins
             self.last_check = self.tick
             api = WebAPI(key=STEAM_TOKEN)
-            channel = yield from self.get_channel("armazac")
+            channel = yield from self.get_channel("general","Overthrow")
 
             #Check for a new Arma 3 SITREP
             news = api.ISteamNews.GetNewsForApp_v1(appid=107410,count=1)

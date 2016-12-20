@@ -55,8 +55,10 @@ class Plugin:
         pass
 
     @asyncio.coroutine
-    def get_channel(self, name):
+    def get_channel(self, name, server_name=""):
         for server in self.client.servers:
+            if server_name != "" and server.name != server_name:
+                continue
             for channel in server.channels:
                 if channel.name == name:
                     return channel

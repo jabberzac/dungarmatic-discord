@@ -17,7 +17,7 @@ class LinksPlugin(TimedPersistentPlugin):
     def on_message(self, message, history):
         m = message.content
 
-        regex = r"(https?:\/\/)?([\da-z\.-]+\.(?:[a-z\.]{2,6}))([\/\w\.-]+)[\/\s]?"
+        regex = r"(https?:\/\/)([\da-z\.-]+\.(?:[a-z\.]{2,6}))([\/\w\.-]+)[\/\s]?"
         matches = re.finditer(regex, m, re.MULTILINE)
         id = message.channel.id
         if id not in self.links:
