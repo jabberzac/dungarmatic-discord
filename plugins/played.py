@@ -13,6 +13,8 @@ class PlayedPlugin(PersistentPlugin):
     @asyncio.coroutine
     def on_ready(self):
         for member in self.client.get_all_members():
+            if member.server.name != "Discordzac":
+                continue
             if member.game != None:
                 if member.game.name not in self.played:
                     self.played[member.game.name] = []
