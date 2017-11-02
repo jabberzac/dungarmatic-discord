@@ -1,4 +1,4 @@
-from lib import TimedPersistentPlugin
+from lib import Plugin
 import markovify, feedparser, random
 from datetime import datetime, timedelta
 from bson import Code
@@ -7,10 +7,9 @@ from tornado import gen
 import re, html
 
 
-class MarkovPlugin(TimedPersistentPlugin):
+class MarkovPlugin(Plugin):
     cmd = "markov"
     help = "Graces you with a pearl of wisdom generated from comments in /r/the_donald"
-    persist = ['chain']
 
     chain = {}
     comments = ""
@@ -39,7 +38,7 @@ class MarkovPlugin(TimedPersistentPlugin):
 
         if rnd > 0.99 and 'chain' in self.chain:
             model = markovify.Text.from_dict(self.chain)
-            txt = model.make_sentence()
+            txt = model.make_sentence(test_output=False)
             if txt != None:
                 channel = yield from self.get_channel("discordzac")
                 yield from self.client.send_message(channel,txt)
@@ -50,14 +49,8 @@ class MarkovPlugin(TimedPersistentPlugin):
             yield from self.client.send_message(message.channel, "Still collecting data from /r/the_donald")
             return
         model = markovify.Text.from_dict(self.chain)
-        txt = model.make_sentence()
-        if txt == None:
-            txt = model.make_sentence()
-        if txt == None:
-            txt = model.make_sentence()
-        if txt == None:
-            txt = model.make_sentence()
-
-        yield from self.client.send_message(message.channel, txt)
+        txt = model.make_sentence(test_output=False)
+        if txt != None:
+            yield from self.client.send_message(message.channel, txt)
 
 
