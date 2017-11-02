@@ -28,7 +28,10 @@ class MarkovPlugin(Plugin):
             num_comments = 100
 
             for i in range(num_comments):
+                #unescape html and remove tags
                 text = html.unescape(tag_re.sub('', str(d.entries[i]['content'][0]['value']))).strip(" ").strip("\n")
+                #strip urls (links to breitbart)
+                text = re.sub(r'\w+:\/{2}[\d\w-]+(\.[\d\w-]+)*(?:(?:\/[^\s/]*))*', '', text)
                 self.comments += text + "\n"
 
             model = markovify.NewlineText(self.comments)
@@ -49,7 +52,21 @@ class MarkovPlugin(Plugin):
             yield from self.client.send_message(message.channel, "Still collecting data from /r/the_donald")
             return
         model = markovify.Text.from_dict(self.chain)
-        txt = model.make_sentence(test_output=False)
+        txt = None
+
+        if len(message.content) > 8:
+            word = message.content[8:]
+            words = [key for key in model.chain.model.keys() if "___BEGIN__" in key]
+
+            for key,val in words:
+                if val == word:
+                    txt = model.make_sentence(init_state=(key,val), test_output=False)
+
+            if txt == None:
+                txt = "I dunno anything about " + word
+
+        else:
+            txt = model.make_sentence(test_output=False)
         if txt != None:
             yield from self.client.send_message(message.channel, txt)
 
