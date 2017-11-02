@@ -13,6 +13,7 @@ client = discord.Client()
 channel = None
 
 loaded_plugins = []
+loaded_plugin_names = []
 
 for name, obj in inspect.getmembers(sys.modules[__name__]):
     for n, o in inspect.getmembers(obj):
@@ -20,7 +21,9 @@ for name, obj in inspect.getmembers(sys.modules[__name__]):
             print('Loading Plugin: ' + o.__name__)
             plug = o()
             plug.client = client
+            plug.loaded_plugins = loaded_plugin_names
             loaded_plugins.append(plug)
+            loaded_plugin_names.append(o.__name__)
 
 @client.event
 @asyncio.coroutine

@@ -57,13 +57,15 @@ class MarkovPlugin(Plugin):
         if len(message.content) > 8:
             word = message.content[8:]
             words = [key for key in model.chain.model.keys() if "___BEGIN__" in key]
+            if word == "stats":
+                txt = "I know " + str(len(words)) + " markov chains from /r/the_donald right now"
+            else:
+                for key,val in words:
+                    if val == word:
+                        txt = model.make_sentence(init_state=(key,val), test_output=False)
 
-            for key,val in words:
-                if val == word:
-                    txt = model.make_sentence(init_state=(key,val), test_output=False)
-
-            if txt == None:
-                txt = "I dunno anything about " + word
+                if txt == None:
+                    txt = "I dunno anything about " + word
 
         else:
             txt = model.make_sentence(test_output=False)
