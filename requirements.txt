@@ -5,3 +5,5 @@ steam
 motor
 tornado
 thegamesdb
+markovify
+feedparser
