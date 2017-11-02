@@ -17,10 +17,12 @@ loaded_plugin_names = []
 
 for name, obj in inspect.getmembers(sys.modules[__name__]):
     for n, o in inspect.getmembers(obj):
-        if inspect.isclass(o) and issubclass(o,Plugin) and o != Plugin and o != PersistentPlugin:
+        if inspect.isclass(o) and issubclass(o,Plugin) and o != Plugin and o != PersistentPlugin and o != TimedPersistentPlugin:
             print('Loading Plugin: ' + o.__name__)
             plug = o()
             plug.client = client
+            plug.plugins = loaded_plugins
+            plug.name = o.__name__
             plug.loaded_plugins = loaded_plugin_names
             loaded_plugins.append(plug)
             loaded_plugin_names.append(o.__name__)

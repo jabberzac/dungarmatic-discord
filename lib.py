@@ -15,6 +15,13 @@ class Plugin:
     client = None
     channel = None
 
+    def from_admin(self, message):
+        for role in message.author.roles:
+            if role.name == "admin":
+                return True
+
+        return False
+
     @asyncio.coroutine
     def on_ready(self):
         pass
@@ -62,6 +69,18 @@ class Plugin:
             for channel in server.channels:
                 if channel.name == name:
                     return channel
+
+    def get_member(self,name):
+        for server in self.client.servers:
+            for member in server.members:
+                if member.name == name or member.nick == name:
+                    return member
+
+    @asyncio.coroutine
+    def get_plugin(self, name):
+        for plugin in self.plugins:
+            if plugin.name == name:
+                return plugin
 
     def chance(self, chance):
         """chance should be a dictionary with the keys being a number like 0.25
