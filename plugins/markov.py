@@ -39,7 +39,7 @@ class MarkovPlugin(Plugin):
 
         rnd = random.random()
 
-        if rnd > 0.99 and 'chain' in self.chain:
+        if rnd > 0.999 and 'chain' in self.chain:
             model = markovify.Text.from_dict(self.chain)
             txt = model.make_sentence(test_output=False)
             if txt != None:
