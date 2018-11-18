@@ -7,7 +7,7 @@ from tornado import gen
 
 class AliasPlugin(PersistentPlugin):
     cmd = "alias"
-    help = "Sets an alias for a game"
+    help = "Sets an alias for a game (admin only"
     persist = ['aliases']
 
     aliases = {}
@@ -21,6 +21,10 @@ class AliasPlugin(PersistentPlugin):
 
     @asyncio.coroutine
     def on_command(self, message):
+        if not self.from_admin(message):
+            yield from self.client.send_message(message.channel, "You must be an admin to add aliases")
+            return
+
         played = yield from self.get_plugin("PlayedPlugin")
 
         content = message.content[7:]
