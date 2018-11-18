@@ -2,8 +2,7 @@ from lib import Plugin
 from random import random
 import asyncio
 
-#notifies #armazac channel of various overthrow stuff
-class OverthrowPlugin(Plugin):
+class ZorPlugin(Plugin):
     @asyncio.coroutine
     def on_ready(self):
         pass
