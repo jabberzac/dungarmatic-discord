@@ -32,6 +32,11 @@ class PlayedPlugin(PersistentPlugin):
     @asyncio.coroutine
     def on_command(self, message):
         game = message.content[10:]
+
+        aliases = yield from self.get_plugin("AliasPlugin")
+        if game in aliases.reverse:
+            game = aliases.reverse[game]
+
         theset = {}
         for k,v in self.played.items():
             theset[k.lower()] = {'v':v,'k':k}
