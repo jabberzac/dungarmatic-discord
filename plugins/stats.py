@@ -8,7 +8,27 @@ import re, html
 
 
 class StatsPlugin(Plugin):
+    cmd = "stats"
+    help = "Shows bot stats (admin only)"
     announced = False
+
+    @asyncio.coroutine
+    def on_command(self, message):
+        plugins = ""
+        for plugin in self.loaded_plugins:
+            if plugin != "TimedPersistentPlugin":
+                plugins += plugin[0:-6] + ", "
+        plugins = plugins[0:-2]
+
+        yield from self.client.send_message(message.channel, "Loaded plugins: " + plugins)
+
+        games = ""
+        played = yield from self.get_plugin("PlayedPlugin")
+        for game in played.played:
+            games += game + ", "
+        games = games[0:-2]
+
+        yield from self.client.send_message(message.channel, "All known games: " + games)
 
     @asyncio.coroutine
     def on_tick(self):
