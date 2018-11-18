@@ -32,8 +32,6 @@ class AliasPlugin(PersistentPlugin):
             return
 
         s = content.split(" as ")
-        print(s[0])
-        print(s[1])
         if s[0] in played.played:
             if s[0] not in self.aliases:
                 self.aliases[s[0]] = []

@@ -31,7 +31,7 @@ class PlayedPlugin(PersistentPlugin):
 
     @asyncio.coroutine
     def on_command(self, message):
-        game = message.content[10:]
+        game = message.content[10:].lower()
 
         aliases = yield from self.get_plugin("AliasPlugin")
         if game in aliases.reverse:
