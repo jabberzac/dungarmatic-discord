@@ -10,6 +10,7 @@ store = motor.motor_asyncio.AsyncIOMotorClient(MONGODB_URI)['dungarmatic']
 tornado_store = motor.motor_tornado.MotorClient(MONGODB_URI)['dungarmatic']
 
 class Plugin:
+    disabled = False
     help = "Whoever wrote this plugin needs to write a damn help text ffs"
     cmd = None
     client = None

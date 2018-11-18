@@ -8,6 +8,7 @@ import re, html
 
 
 class MarkovPlugin(Plugin):
+    disabled = True
     cmd = "markov"
     help = "Graces you with a pearl of wisdom generated from comments in /r/the_donald"
 
