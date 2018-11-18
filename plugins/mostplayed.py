@@ -13,15 +13,18 @@ class MostPlayedPlugin(TimedPersistentPlugin):
     played = {}
 
     @asyncio.coroutine
+    def on_ready(self):
+        self.ignore = yield from self.get_plugin("IgnorePlugin")
+
+    @asyncio.coroutine
     def on_tick(self):
         for member in self.client.get_all_members():
-            if member.server.name != "Discordzac":
-                continue
             if member.game != None:
-                if member.game.name not in self.played:
-                    self.played[member.game.name] = 1
-                else:
-                    self.played[member.game.name] += 1
+                if member.game.name not in self.ignore.ignores:
+                    if member.game.name not in self.played:
+                        self.played[member.game.name] = 1
+                    else:
+                        self.played[member.game.name] += 1
 
     @asyncio.coroutine
     def on_command(self, message):

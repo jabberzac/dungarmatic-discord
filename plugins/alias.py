@@ -7,7 +7,7 @@ from tornado import gen
 
 class AliasPlugin(PersistentPlugin):
     cmd = "alias"
-    help = "Sets an alias for a game (admin only"
+    help = "Sets an alias for a game (admin only)"
     persist = ['aliases']
 
     aliases = {}

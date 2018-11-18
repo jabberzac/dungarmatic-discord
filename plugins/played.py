@@ -12,22 +12,23 @@ class PlayedPlugin(PersistentPlugin):
 
     @asyncio.coroutine
     def on_ready(self):
+        self.ignore = yield from self.get_plugin("IgnorePlugin")
         for member in self.client.get_all_members():
-            if member.server.name != "Discordzac":
-                continue
             if member.game != None:
-                if member.game.name not in self.played:
-                    self.played[member.game.name] = []
-                if (member.nick or member.name) not in self.played[member.game.name]:
-                    self.played[member.game.name].append(member.nick or member.name)
+                if member.game.name not in self.ignore.ignores:
+                    if member.game.name not in self.played:
+                        self.played[member.game.name] = []
+                    if (member.nick or member.name) not in self.played[member.game.name]:
+                        self.played[member.game.name].append(member.nick or member.name)
 
     @asyncio.coroutine
     def on_member_update(self, old, member):
         if member.game != None and member.game != old.game:
-            if member.game.name not in self.played:
-                self.played[member.game.name] = []
-            if (member.nick or member.name) not in self.played[member.game.__str__()]:
-                self.played[member.game.name].append(member.nick or member.name)
+            if member.game.name not in self.ignore.ignores:
+                if member.game.name not in self.played:
+                    self.played[member.game.name] = []
+                if (member.nick or member.name) not in self.played[member.game.__str__()]:
+                    self.played[member.game.name].append(member.nick or member.name)
 
     @asyncio.coroutine
     def on_command(self, message):
