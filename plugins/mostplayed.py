@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from bson import Code
 import asyncio
 from tornado import gen
+from discord import ActivityType
 
 
 class MostPlayedPlugin(TimedPersistentPlugin):
@@ -19,7 +20,7 @@ class MostPlayedPlugin(TimedPersistentPlugin):
     @asyncio.coroutine
     def on_tick(self):
         for member in self.client.get_all_members():
-            if len(member.activities) > 0:
+            if len(member.activities) > 0 and member.activities[0].type == ActivityType.playing:
                 if member.activities[0].name not in self.ignore.ignores:
                     if member.activities[0].name not in self.played:
                         self.played[member.activities[0].name] = 1

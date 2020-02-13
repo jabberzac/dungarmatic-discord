@@ -1,6 +1,6 @@
 from lib import PersistentPlugin
 import asyncio
-
+from discord import ActivityType
 
 
 class PlayedPlugin(PersistentPlugin):
@@ -14,7 +14,7 @@ class PlayedPlugin(PersistentPlugin):
     def on_ready(self):
         self.ignore = yield from self.get_plugin("IgnorePlugin")
         for member in self.client.get_all_members():
-            if len(member.activities) > 0:
+            if len(member.activities) > 0 and member.activities[0].type == ActivityType.playing:
                 if member.activities[0].name not in self.ignore.ignores:
                     if member.activities[0].name not in self.played:
                         self.played[member.activities[0].name] = []
@@ -23,7 +23,7 @@ class PlayedPlugin(PersistentPlugin):
 
     @asyncio.coroutine
     def on_member_update(self, old, member):
-        if len(member.activities) > 0 and len(old.activities) == 0:
+        if len(member.activities) > 0 and len(old.activities) == 0 and member.activities[0].type == ActivityType.playing:
             if member.activities[0].name not in self.ignore.ignores:
                 if member.activities[0].name not in self.played:
                     self.played[member.activities[0].name] = []

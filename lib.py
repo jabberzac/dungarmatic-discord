@@ -124,6 +124,7 @@ class PersistentPlugin(Plugin):
         data = yield from coll.find_one({'plugin': self.__class__.__name__})
         if not data:
             data = {'plugin':self.__class__.__name__}
+            coll.insert_one(data)
         for name in self.persist:
             val = getattr(self,name)
             data[name] = val
@@ -152,6 +153,7 @@ class TimedPersistentPlugin(Plugin):
         data = yield from coll.find_one({'date': datetime.now().strftime(self.dateformat)})
         if not data:
             data = {'date': datetime.now().strftime(self.dateformat)}
+            coll.insert_one(data)
         for name in self.persist:
             val = getattr(self, name)
             data[name] = val
