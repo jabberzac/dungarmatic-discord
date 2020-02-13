@@ -91,7 +91,7 @@ def on_message(message):
         for plugin in loaded_plugins:
             if plugin.cmd:
                 m += "!" + plugin.cmd + ": " + plugin.help + "\n"
-        yield from client.send_message(message.channel, m)
+        yield from message.channel.send(m)
 
     elif message.content.startswith('!'):
         cmd = message.content[1:]
@@ -140,10 +140,9 @@ def start_web():
 
 if __name__ == "__main__":
 
-    t = threading.Thread(target=start_web)
-    t.daemon = True
-    t.start()
+    #t = threading.Thread(target=start_web)
+    #t.daemon = True
+    #t.start()
 
     print("Connecting to Discord")
     client.run(os.environ.get('DISCORD_TOKEN',''))
-

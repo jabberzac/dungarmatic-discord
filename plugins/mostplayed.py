@@ -19,12 +19,12 @@ class MostPlayedPlugin(TimedPersistentPlugin):
     @asyncio.coroutine
     def on_tick(self):
         for member in self.client.get_all_members():
-            if member.game != None:
-                if member.game.name not in self.ignore.ignores:
-                    if member.game.name not in self.played:
-                        self.played[member.game.name] = 1
+            if len(member.activities) > 0:
+                if member.activities[0].name not in self.ignore.ignores:
+                    if member.activities[0].name not in self.played:
+                        self.played[member.activities[0].name] = 1
                     else:
-                        self.played[member.game.name] += 1
+                        self.played[member.activities[0].name] += 1
 
     @asyncio.coroutine
     def on_command(self, message):
@@ -57,7 +57,7 @@ class MostPlayedPlugin(TimedPersistentPlugin):
             hrs = round(row['v'] / 120)
             txt += "" + str(x+1) + ". " + row['g'] + " (" + str(hrs) + " hrs)\n"
 
-        yield from self.client.send_message(message.channel, txt)
+        yield from message.channel.send(txt)
 
     @gen.coroutine
     def api_activity(self):

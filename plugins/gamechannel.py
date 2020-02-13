@@ -8,6 +8,7 @@ import re, html
 
 
 class GameChannelPlugin(PersistentPlugin):
+    disabled=True
     cmd = "gamechannel"
     help = "Sets up this channel as a game channel (admin only)"
     persist = ["games"]
@@ -33,4 +34,3 @@ class GameChannelPlugin(PersistentPlugin):
 
                 if txt != "":
                     yield from self.client.send_message(message.channel, txt)
-

@@ -15,7 +15,7 @@ class IgnorePlugin(PersistentPlugin):
     @asyncio.coroutine
     def on_command(self, message):
         if not self.from_admin(message):
-            yield from self.client.send_message(message.channel, "You must be an admin to add ignores")
+            yield from message.channel.send("You must be an admin to add ignores")
             return
 
         played = yield from self.get_plugin("PlayedPlugin")
@@ -33,5 +33,4 @@ class IgnorePlugin(PersistentPlugin):
         else:
             txt = "I have never heard of the game " + content
 
-        yield from self.client.send_message(message.channel, txt)
-
+        yield from message.channel.send(txt)

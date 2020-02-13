@@ -1,12 +1,13 @@
 from lib import Plugin
 import asyncio,urllib,traceback,re,xml
 import xml.etree.ElementTree as ET
+import wikipedia
 
 #ask a stupid question, get a stupid answer
 class QuestionPlugin(Plugin):
     @asyncio.coroutine
     def on_ready(self):
-        self.tome = r"^<@" + self.client.user.id + ">\s*"
+        self.tome = r"^<@!" + str(self.client.user.id) + ">\s*"
         self.add_handler([self.tome + r".*\?"], self.handler_question)
 
     @asyncio.coroutine
@@ -112,32 +113,15 @@ class QuestionPlugin(Plugin):
                 {'To crush your enemies, see them driven before you, and to hear the lamentation of their women': 0.9,
                  'To crush your biscuits, see them dunked in your tea, and hear the conversation of your auntie': 0.1})
 
-        url = 'http://en.wikipedia.org/wiki/%s' % phrase.replace(" ", "_")
-        urlopen = urllib.request.urlopen
-        Request = urllib.request.Request
+
         txheaders = {'User-agent': 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'}
         try:
-            req = Request(url, None, txheaders)
-            handle = urlopen(req)
-        except urllib.request.HTTPError:
+            summary = wikipedia.summary(phrase, sentences=4)
+        except wikipedia.exceptions.PageError:
             traceback.print_exc()
             return "No idea, why dont you google it, fuck.. http://www.google.com/search?q=" + urllib.parse.quote_plus(phrase)
         except:
             traceback.print_exc()
             return "No idea, why dont you google it, fuck.. http://www.google.com/search?q=" + urllib.parse.quote_plus(phrase)
         else:
-            response = handle.read().decode('utf-8')
-            regex = re.compile("\\<div\\ id=\"mw\\-content\\-text\"[\\s\\S]{0,}?\\>[\\s\\S]{0,}?\\<p\\>([\\s\\S]{1,}?)\\</p\\>")
-            matches = regex.findall(response)
-
-            if len(matches) > 0:
-                desc = matches[0]
-                desc = re.sub(r"<sup.+?</sup>", "", desc, flags=re.IGNORECASE)
-                desc = re.sub(r"<(?:b|strong)>(.+?)<\/(?:b|strong)>", r"**\1**", desc, flags=re.IGNORECASE)
-                desc = re.sub(r"<(?:|em)>(.+?)<\/(?:i|em)>", r"*\1*", desc, flags=re.IGNORECASE)
-                desc = re.sub(r"<.*?>", '', desc, flags=re.IGNORECASE)
-                if desc.endswith("may also refer to:"):
-                    desc += "\nA whole bunch of shit.. be more specific"
-                return desc
-            else:
-                return "No idea, why dont you google it, fuck.. http://www.google.com/search?q=" + urllib.parse.quote_plus(phrase)
+            return summary

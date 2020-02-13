@@ -11,16 +11,16 @@ class ZorPlugin(Plugin):
     def on_message(self, message, history):
         m = message.content
         if m == "z" and random() > 0.2:
-            yield from self.client.send_message(message.channel, "0")
+            yield from message.channel.send("0")
         if m == "0" and history[1] == "z":
             if random() > 0.95:
-                yield from self.client.send_message(message.channel, "g")
+                yield from message.channel.send("g")
             else:
-                yield from self.client.send_message(message.channel, "r")
+                yield from message.channel.send("r")
         if m == "r" and history[1] == "0" and history[2] == "z" and random() > 0.8:
-            yield from self.client.send_message(message.channel, "0")
+            yield from message.channel.send("0")
         if m == "0" and history[1] == "r" and history[2] == "0" and history[2] == "z" and random() > 0.5:
             if random() > 0.95:
-                yield from self.client.send_message(message.channel, "C-C-C-Combo breaker")
+                yield from message.channel.send("C-C-C-Combo breaker")
             else:
-                yield from self.client.send_message(message.channel, "z")
+                yield from message.channel.send("z")

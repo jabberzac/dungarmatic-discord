@@ -22,7 +22,7 @@ class AliasPlugin(PersistentPlugin):
     @asyncio.coroutine
     def on_command(self, message):
         if not self.from_admin(message):
-            yield from self.client.send_message(message.channel, "You must be an admin to add aliases")
+            yield from message.channel.send("You must be an admin to add aliases")
             return
 
         played = yield from self.get_plugin("PlayedPlugin")
@@ -32,7 +32,7 @@ class AliasPlugin(PersistentPlugin):
         txt = ""
 
         if " as " not in content:
-            yield from self.client.send_message(message.channel, "Like this: !alias Fallout 76 as Terrible Game")
+            yield from message.channel.send("Like this: !alias Fallout 76 as Terrible Game")
             return
 
         s = content.split(" as ")
@@ -45,5 +45,4 @@ class AliasPlugin(PersistentPlugin):
         else:
             txt = "I have never heard of the game " + s[0]
 
-        yield from self.client.send_message(message.channel, txt)
-
+        yield from message.channel.send(txt)

@@ -2,6 +2,7 @@ from lib import TimedPersistentPlugin
 import asyncio,re,time,traceback,urllib
 
 class ImagesPlugin(TimedPersistentPlugin):
+    disabled=True
     persist = ['images']
     dateformat = "%Y%m%d"
 

@@ -14,21 +14,21 @@ class PlayedPlugin(PersistentPlugin):
     def on_ready(self):
         self.ignore = yield from self.get_plugin("IgnorePlugin")
         for member in self.client.get_all_members():
-            if member.game != None:
-                if member.game.name not in self.ignore.ignores:
-                    if member.game.name not in self.played:
-                        self.played[member.game.name] = []
-                    if (member.nick or member.name) not in self.played[member.game.name]:
-                        self.played[member.game.name].append(member.nick or member.name)
+            if len(member.activities) > 0:
+                if member.activities[0].name not in self.ignore.ignores:
+                    if member.activities[0].name not in self.played:
+                        self.played[member.activities[0].name] = []
+                    if (member.nick or member.name) not in self.played[member.activities[0].name]:
+                        self.played[member.activities[0].name].append(member.nick or member.name)
 
     @asyncio.coroutine
     def on_member_update(self, old, member):
-        if member.game != None and member.game != old.game:
-            if member.game.name not in self.ignore.ignores:
-                if member.game.name not in self.played:
-                    self.played[member.game.name] = []
-                if (member.nick or member.name) not in self.played[member.game.__str__()]:
-                    self.played[member.game.name].append(member.nick or member.name)
+        if len(member.activities) > 0 and len(old.activities) == 0:
+            if member.activities[0].name not in self.ignore.ignores:
+                if member.activities[0].name not in self.played:
+                    self.played[member.activities[0].name] = []
+                if (member.nick or member.name) not in self.played[member.activities[0].name]:
+                    self.played[member.activities[0].name].append(member.nick or member.name)
 
     @asyncio.coroutine
     def on_command(self, message):
@@ -47,6 +47,6 @@ class PlayedPlugin(PersistentPlugin):
             w = " plays "
             if len(i['v']) > 1:
                 w = " play "
-            yield from self.client.send_message(message.channel, ', '.join(i['v']) + w + i['k'])
+            yield from message.channel.send(', '.join(i['v']) + w + i['k'])
         else:
-            yield from self.client.send_message(message.channel, "No one plays " + game + ". It's probably a shit game anyway.")
+            yield from message.channel.send("No one plays " + game + ". It's probably a shit game anyway.")

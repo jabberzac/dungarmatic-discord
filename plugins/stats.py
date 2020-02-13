@@ -20,7 +20,7 @@ class StatsPlugin(Plugin):
                 plugins += plugin[0:-6] + ", "
         plugins = plugins[0:-2]
 
-        yield from self.client.send_message(message.channel, "Loaded plugins: " + plugins)
+        yield from message.channel.send("Loaded plugins: " + plugins)
 
         games = ""
         played = yield from self.get_plugin("PlayedPlugin")
@@ -28,7 +28,7 @@ class StatsPlugin(Plugin):
             games += game + ", "
         games = games[0:-2]
 
-        yield from self.client.send_message(message.channel, "All known games: " + games)
+        yield from message.channel.send("All known games: " + games)
 
     @asyncio.coroutine
     def on_tick(self):
@@ -42,4 +42,4 @@ class StatsPlugin(Plugin):
                     plugins += plugin[0:-6] + ", "
             plugins = plugins[0:-2]
 
-            yield from self.client.send_message(channel, "I am coming online, plugins loaded: "+plugins)
+            yield from channel.send("I am coming online, plugins loaded: "+plugins)

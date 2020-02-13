@@ -6,6 +6,7 @@ from tornado import gen
 
 
 class LinksPlugin(TimedPersistentPlugin):
+    disabled=True
     cmd = "links"
     help = "Gives you the last 5 links posted in this channel"
     persist = ['links']

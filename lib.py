@@ -4,7 +4,7 @@ import motor.motor_asyncio
 from simplekv.fs import FilesystemStore
 from tornado import gen
 
-MONGODB_URI = os.environ.get('MONGODB_URI','')
+MONGODB_URI = os.environ.get('MONGODB_URI','mongodb://localhost')
 
 store = motor.motor_asyncio.AsyncIOMotorClient(MONGODB_URI)['dungarmatic']
 tornado_store = motor.motor_tornado.MotorClient(MONGODB_URI)['dungarmatic']
@@ -48,7 +48,7 @@ class Plugin:
                     break
 
         if reply:
-            yield from self.client.send_message(message.channel, reply)
+            yield from message.channel.send(reply)
 
     @asyncio.coroutine
     def on_tick(self):
@@ -64,7 +64,7 @@ class Plugin:
 
     @asyncio.coroutine
     def get_channel(self, name, server_name=""):
-        for server in self.client.servers:
+        for server in self.client.guilds:
             if server_name != "" and server.name != server_name:
                 continue
             for channel in server.channels:
@@ -72,7 +72,7 @@ class Plugin:
                     return channel
 
     def get_member(self,name):
-        for server in self.client.servers:
+        for server in self.client.guilds:
             for member in server.members:
                 if member.name == name or member.nick == name:
                     return member
@@ -127,7 +127,7 @@ class PersistentPlugin(Plugin):
         for name in self.persist:
             val = getattr(self,name)
             data[name] = val
-        yield from coll.save(data)
+        yield from coll.update_one({'plugin': self.__class__.__name__},{'$set': data})
 
     @asyncio.coroutine
     def load(self):
@@ -155,7 +155,7 @@ class TimedPersistentPlugin(Plugin):
         for name in self.persist:
             val = getattr(self, name)
             data[name] = val
-        yield from coll.save(data)
+        yield from coll.update_one({'date': datetime.now().strftime(self.dateformat)},{"$set":data})
 
     @asyncio.coroutine
     def load(self):
