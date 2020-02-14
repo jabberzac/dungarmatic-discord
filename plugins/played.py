@@ -12,7 +12,7 @@ class PlayedPlugin(PersistentPlugin):
 
     @asyncio.coroutine
     def on_ready(self):
-        self.ignore = yield from self.get_plugin("IgnorePlugin")
+        self.ignore = self.get_plugin("IgnorePlugin")
         for member in self.client.get_all_members():
             if len(member.activities) > 0 and member.activities[0].type == ActivityType.playing:
                 if member.activities[0].name not in self.ignore.ignores:
@@ -34,7 +34,7 @@ class PlayedPlugin(PersistentPlugin):
     def on_command(self, message):
         game = message.content[10:].lower()
 
-        aliases = yield from self.get_plugin("AliasPlugin")
+        aliases = self.get_plugin("AliasPlugin")
         if game in aliases.reverse:
             game = aliases.reverse[game]
 

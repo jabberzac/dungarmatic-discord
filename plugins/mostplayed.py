@@ -15,7 +15,7 @@ class MostPlayedPlugin(TimedPersistentPlugin):
 
     @asyncio.coroutine
     def on_ready(self):
-        self.ignore = yield from self.get_plugin("IgnorePlugin")
+        self.ignore = self.get_plugin("IgnorePlugin")
 
     @asyncio.coroutine
     def on_tick(self):

@@ -18,7 +18,7 @@ class IgnorePlugin(PersistentPlugin):
             yield from message.channel.send("You must be an admin to add ignores")
             return
 
-        played = yield from self.get_plugin("PlayedPlugin")
+        played = self.get_plugin("PlayedPlugin")
 
         content = message.content[8:]
 

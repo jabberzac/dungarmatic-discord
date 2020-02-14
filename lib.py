@@ -68,7 +68,6 @@ class Plugin:
     def get_jabberzac_name(self, member):
         pass
 
-    @asyncio.coroutine
     def get_channel(self, name, server_name=""):
         for server in self.client.guilds:
             if server_name != "" and server.name != server_name:
@@ -83,7 +82,6 @@ class Plugin:
                 if member.name == name or member.nick == name:
                     return member
 
-    @asyncio.coroutine
     def get_plugin(self, name):
         for plugin in self.plugins:
             if plugin.name == name:
@@ -91,7 +89,7 @@ class Plugin:
 
     @asyncio.coroutine
     def get_tweets(self, screen_name):
-        return twitter.user_timeline(screen_name)        
+        return twitter.user_timeline(screen_name)
 
     def chance(self, chance):
         """chance should be a dictionary with the keys being a number like 0.25

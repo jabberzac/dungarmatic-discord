@@ -23,7 +23,7 @@ class StatsPlugin(Plugin):
         yield from message.channel.send("Loaded plugins: " + plugins)
 
         games = ""
-        played = yield from self.get_plugin("PlayedPlugin")
+        played = self.get_plugin("PlayedPlugin")
         for game in played.played:
             games += game + ", "
         games = games[0:-2]
@@ -34,7 +34,7 @@ class StatsPlugin(Plugin):
     def on_tick(self):
         if not self.announced:
             self.announced = True
-            channel = yield from self.get_channel("dungarmatic-test")
+            channel = self.get_channel("dungarmatic-test")
 
             plugins = ""
             for plugin in self.loaded_plugins:

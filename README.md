@@ -38,7 +38,7 @@ from lib import Plugin
 import asyncio
 
 class MyPlugin(Plugin):
-    
+
     @asyncio.coroutine
     def on_message(self, message, history):
       print history[1]                                  #print the message that came before this one (up to 30 messages)
@@ -49,7 +49,7 @@ class MyPlugin(Plugin):
 ```
 
 ## Persistent plugins
-There are two types of persistent plugins; normal and timed. 
+There are two types of persistent plugins; normal and timed.
 
 ### Normal
 ```python
@@ -137,6 +137,9 @@ Is called every time a member changes (ie what they are playing, or joining a ch
 ## Helper functions
 The following can all be accessed within a plugin using self.<method> to automate some useful tasks
 
+### `response = self.chance({"Response 1": 0.5, "Response 2": 0.5})`
+Returns a string based on a random number from 0..1. Pass an object with the keys being your options, and the values being the chance between 0.0 and 1.0. Make sure the chances add up to 1.0 or you might get `None` as a response (unless that is desired)
+
 ### `is_admin = self.from_admin(message)`
 Returns true if the provided message came from someone with admin permissions
 
@@ -153,4 +156,3 @@ Returns loaded reference to another plugin, in case you need your plugins to tal
 Returns the most recent 20 tweets posted by anyone on twitter. You must yield this so it doesnt block while contacting twitter.
 
 More coming soon...
-
