@@ -29,3 +29,59 @@ class MyPlugin(Plugin):
       message.channel.send("you triggered my command!") #send a reply to the originating channel
       message.author.send("hello fren")                 #send a dm to the author      
 ```
+
+## How to make a plugin that runs on every message
+Here's how to create one that doesnt respond to !commands but instead can run on every single message thats sent (in any channel, for example z0r chains)
+
+```python
+from lib import Plugin
+import asyncio
+
+class MyPlugin(Plugin):
+    
+    @asyncio.coroutine
+    def on_message(self, message, history):
+      print history[1]                                  #print the message that came before this one (up to 30 messages)
+      print message.content                             #print the whole message, split on space or whatever to get params
+      print message.author.name                         #print the author's name
+      message.channel.send("you said a thing!")         #send a reply to the originating channel
+      message.author.send("hello fren")                 #send a dm to the author
+```
+
+## Persistent plugins
+There are two types of persistent plugins; normal and timed. 
+
+### Normal
+```python
+from lib import PersistentPlugin
+import asyncio
+
+class MyPlugin(PersistentPlugin):
+    persist = ['data']  #A list of class param names to persist
+    data = {}           #your data
+
+    @asyncio.coroutine
+    def on_ready(self):
+        print self.data             #print the stored data
+        self.data = {"blah":"hi"}   #set the data
+```
+
+This plugin will then automatically persist `self.data` to mongo and re-populate it from the db on startup
+
+### Timed (Advanced)
+```python
+from lib import TimedPersistentPlugin
+import asyncio
+
+class MyPlugin(PersistentPlugin):
+    persist = ['data']  #A list of class param names to persist
+    data = {}           #your data
+
+    @asyncio.coroutine
+    def on_tick(self):
+        #this method will be called every 30 seconds (considered a "tick")
+        print self.data             #print the stored data
+        self.data = {"blah":"hi"}   #set the data
+```
+
+This plugin will then automatically persist `self.data` but with a timestamp attached. You can then use map/reduce to generate sums, graphs or whatever. See the MostPlayedPlugin for an example.
