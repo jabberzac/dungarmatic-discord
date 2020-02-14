@@ -73,7 +73,7 @@ This plugin will then automatically persist `self.data` to mongo and re-populate
 from lib import TimedPersistentPlugin
 import asyncio
 
-class MyPlugin(PersistentPlugin):
+class MyPlugin(TimedPersistentPlugin):
     persist = ['data']  #A list of class param names to persist
     data = {}           #your data
 
