@@ -8,3 +8,4 @@ thegamesdb
 markovify
 feedparser
 wikipedia
+python-twitter

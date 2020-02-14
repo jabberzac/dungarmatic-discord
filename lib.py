@@ -3,11 +3,17 @@ from datetime import datetime, timedelta
 import motor.motor_asyncio
 from simplekv.fs import FilesystemStore
 from tornado import gen
+import tweepy
 
 MONGODB_URI = os.environ.get('MONGODB_URI','mongodb://localhost')
 
 store = motor.motor_asyncio.AsyncIOMotorClient(MONGODB_URI)['dungarmatic']
 tornado_store = motor.motor_tornado.MotorClient(MONGODB_URI)['dungarmatic']
+
+#Twitter
+auth = tweepy.OAuthHandler("qG6B15Clr9RNNVQRVfkw","I2gJLCWZSqMBWKDOEufeNyBcurDxIMA8USrZDewy0Y")
+auth.set_access_token("20490252-tYJfICH6Gr50o5uh1vmbmC3SMeaB5NHIysFDDPF2K","OYIZ0sd98GNVxA1CKzN2V75G7QckwRm83i7OLYKQSSOkQ")
+twitter = tweepy.API(auth)
 
 class Plugin:
     disabled = False
@@ -82,6 +88,10 @@ class Plugin:
         for plugin in self.plugins:
             if plugin.name == name:
                 return plugin
+
+    @asyncio.coroutine
+    def get_tweets(self, screen_name):
+        return twitter.user_timeline(screen_name)        
 
     def chance(self, chance):
         """chance should be a dictionary with the keys being a number like 0.25
