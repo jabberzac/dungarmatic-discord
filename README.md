@@ -26,8 +26,8 @@ class MyPlugin(Plugin):
     def on_command(self, message):
       print message.content                             #print the whole message, split on space or whatever to get params
       print message.author.name                         #print the author's name
-      message.channel.send("you triggered my command!") #send a reply to the originating channel
-      message.author.send("hello fren")                 #send a dm to the author      
+      yield from message.channel.send("you triggered my command!") #send a reply to the originating channel
+      yield from message.author.send("hello fren")                 #send a dm to the author      
 ```
 
 ## How to make a plugin that runs on every message
@@ -44,8 +44,8 @@ class MyPlugin(Plugin):
       print history[1]                                  #print the message that came before this one (up to 30 messages)
       print message.content                             #print the whole message, split on space or whatever to get params
       print message.author.name                         #print the author's name
-      message.channel.send("you said a thing!")         #send a reply to the originating channel
-      message.author.send("hello fren")                 #send a dm to the author
+      yield from message.channel.send("you said a thing!")         #send a reply to the originating channel
+      yield from message.author.send("hello fren")                 #send a dm to the author
 ```
 
 ## Persistent plugins
@@ -85,3 +85,72 @@ class MyPlugin(TimedPersistentPlugin):
 ```
 
 This plugin will then automatically persist `self.data` but with a timestamp attached. You can then use map/reduce to generate sums, graphs or whatever. See the MostPlayedPlugin for an example.
+
+## Events
+Override these methods in your plugin to respond to events. You must decorate these with `@asyncio.coroutine` because dungar is asynchronous.
+
+### on_ready
+Is called when your plugin is first loaded, after persistent data is loaded, in case you need to set anything up or cache stuff
+```python
+    @asyncio.coroutine
+    def on_ready(self):
+        #do stuff here
+```
+
+### on_command
+Is called when someone says your command (set by `command = "blah"` in your plugin)
+```python
+    @asyncio.coroutine
+    def on_command(self, message):
+        print message.content
+```
+
+### on_message
+Is called when anyone says anything, including dungar himself
+```python
+    @asyncio.coroutine
+    def on_message(self, message, history):
+        if message.author == self.client.user:
+            print "this message was sent by dungar himself"
+        print message.content       #the message text
+        print message.author.name   #Who posted it
+        print history               #A list of the last 30 messages in that channel
+```
+
+### on_tick
+Is called every 30 seconds (a 'tick')
+```python
+    @asyncio.coroutine
+    def on_tick(self):
+        #do stuff
+```
+
+### on_member_update
+Is called every time a member changes (ie what they are playing, or joining a channel, etc)
+```python
+    @asyncio.coroutine
+    def on_member_update(self, old, member):
+        #old = the member before they updated
+        #member = the member after they updated
+```
+
+## Helper functions
+The following can all be accessed within a plugin using self.<method> to automate some useful tasks
+
+### `is_admin = self.from_admin(message)`
+Returns true if the provided message came from someone with admin permissions
+
+### `channel = self.get_channel(name)`
+Returns a particular channel by name (you can then call `channel.send` to send to that specific channel)
+
+### `member = self.get_member(name)`
+Returns a particular user by name (you can then call `member.send` to send to that specific person)
+
+### `plugin = self.get_plugin(name)`
+Returns loaded reference to another plugin, in case you need your plugins to talk to each other
+
+### `tweets = yield from self.get_tweets(screen_name)`
+Returns the most recent 20 tweets posted by anyone on twitter. You must yield this so it doesnt block while contacting twitter.
+
+More coming soon...
+
